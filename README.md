@@ -106,13 +106,3 @@ df.head()
 ## License
 
 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
-
----
-
-## Next Steps You Might Explore
-
-- Add continuous integration with GitHub Actions for automated testing
-- Enable an interactive Binder or GitHub Codespaces environment
-- Create requirements-dev.txt for linters, formatters, and test frameworks
-- Bundle a Dockerfile for cross-platform reproducibility
-- Incorporate charts directly into Excel using XlsxWriter’s chart APIs
