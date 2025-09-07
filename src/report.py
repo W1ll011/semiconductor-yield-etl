@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from etl import load_raw, compute_yield
 
 BASE_DIR   = os.path.dirname(__file__)
 RAW_DIR    = os.path.join(BASE_DIR, "..", "data", "raw")
@@ -8,35 +9,8 @@ os.makedirs(REPORT_DIR, exist_ok=True)
 
 
 def load_and_summarize():
-    """
-    1) Load the single 'all_lots.csv' file produced by the
-       in-memory concatenation approach.
-    2) Compute per-lot gross_die, good_die, and yield.
-    """
-    path = os.path.join(RAW_DIR, "all_lots.csv")
-    df   = pd.read_csv(path)
-
-    # total dies per lot
-    total = (
-        df
-        .groupby("lot_id")["die_id"]
-        .count()
-        .rename("gross_die")
-    )
-
-    # passing dies per lot
-    good = (
-        df[df.test_result == "PASS"]
-        .groupby("lot_id")["die_id"]
-        .count()
-        .rename("good_die")
-    )
-
-    summary = pd.concat([total, good], axis=1).fillna(0)
-    summary["yield"] = summary.good_die / summary.gross_die
-
-    return summary.reset_index()
-
+    df= load_raw()
+    return compute_yield(df)
 
 def export_excel(df: pd.DataFrame):
     """
